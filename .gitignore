@@ -1,0 +1,9 @@
+/.project
+/.buildpath
+/.settings
+node_modules/
+.DS_Store
+npm-debug.log
+yarn.lock
+/MPAT-adinsertion.iml
+/.idea/

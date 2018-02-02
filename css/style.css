@@ -1,0 +1,377 @@
+/* ========== heading ========== */
+.ad-inserter-h2 {
+    font-size: 21px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 25px 0;
+    margin: 0;
+}
+
+.ad-inserter-h3 {
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* ========== headline ========== */
+.ad-inserter-headline, .ad-inserter-headline-with-button {
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+.ad-inserter-headline-with-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ========== button groups ========== */
+.ad-inserter-right-button-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.ad-inserter-right-button-group > a {
+    margin: 0 8px;
+}
+
+.ad-inserter-space-around-button-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* ========== layout ========== */
+.ad-insertion-content-wrapper {
+    padding: 0 10px;
+}
+
+
+/* ========== buttons ========== */
+.ad-inserter-button-green-white {
+    background-color: #25C1B2;
+    border-color: #25C1B2;
+    color: #fff;
+    text-transform: uppercase !important;
+    text-shadow: none;
+    line-height: 40px;
+    border-radius: 3px;
+    border-style: none !important;
+    height: 44px;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.ad-inserter-button-green-white:hover {
+    background-color: #37D1BE;
+    border-color: #37D1BE;
+}
+
+.ad-inserter-button-white-blue {
+    background-color: #fff;
+    color: #43B4F9;
+    text-transform: uppercase !important;
+    text-shadow: none;
+    line-height: 40px;
+    border: 2px solid #43B4F9;
+    border-radius: 3px;
+    height: 44px;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.ad-inserter-button-white-blue:hover {
+    border-color: #59C3F7;
+    color: #59C3F7;
+}
+
+/* ========== forms ========== */
+.ad-inserter-create-ad {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.ad-inserter-lable-input-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.ad-inserter-table-edit-ad-view .ad-inserter-lable-input-row, .ad-inserter-create-ad .ad-inserter-lable-input-row  {
+    width: 100%;
+}
+
+.ad-inserter-lable-input-row > label {
+    text-transform: uppercase;
+    padding-right: 10px;
+}
+
+.ad-inserter-table-edit-ad-view label, .ad-inserter-create-ad label {
+    width: 120px;
+}
+
+.ad-inserter-lable-input-row > input {
+    box-shadow: none;
+    background: none;
+    outline: none;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    border-bottom: 2px solid #43B4F9;
+    transition: border-color .2s;
+    height: 30px;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.ad-inserter-lable-input-row > input::-webkit-input-placeholder {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.ad-inserter-lable-input-row > input:-moz-placeholder { /* Firefox 18- */
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.ad-inserter-lable-input-row > input::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.ad-inserter-lable-input-row > input:-ms-input-placeholder {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ad-inserter-lable-input-row > input::placeholder {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ad-inserter-lable-input-row > input:focus {
+    border: 2px solid #43B4F9;
+    transition: border-color .2s;
+}
+
+
+/* ========== button ========== */
+.ad-inserter button, .ad-inserter .ad-inserter-loading-button-container, .ad-inserter .ad-inserter-loading-button-container.white {
+    display: flex;
+    align-items: center;
+}
+
+.ad-inserter button .material-icons, .ad-inserter .ad-inserter-loading-button-container .material-icons {
+    margin-right: 8px;
+}
+
+.ad-inserter .key-down{
+    font-size: 34px;
+    margin: 0 -5px;
+}
+
+.ad-inserter .material-icon-as-button {
+    cursor: pointer;
+}
+
+.ad-inserter a {
+    text-decoration: none;
+}
+
+/* ========== loading button ========== */
+@keyframes changeGradientGreen {
+    0% { background: linear-gradient(141deg, #37D1BE 0%, #25C1B2 11%); }
+    5% { background: linear-gradient(141deg, #37D1BE 6%, #25C1B2 16%); }
+    10% { background: linear-gradient(141deg, #25C1B2 0%, #37D1BE 11%, #25C1B2 21%); }
+    15% { background: linear-gradient(141deg, #25C1B2 6%, #37D1BE 16%, #25C1B2 26%); }
+    20% { background: linear-gradient(141deg, #25C1B2 11%, #37D1BE 21%, #25C1B2 31%); }
+    25% { background: linear-gradient(141deg, #25C1B2 16%, #37D1BE 26%, #25C1B2 36%); }
+    30% { background: linear-gradient(141deg, #25C1B2 21%, #37D1BE 31%, #25C1B2 41%); }
+    35% { background: linear-gradient(141deg, #25C1B2 26%, #37D1BE 36%, #25C1B2 46%); }
+    40% { background: linear-gradient(141deg, #25C1B2 31%, #37D1BE 41%, #25C1B2 51%); }
+    45% { background: linear-gradient(141deg, #25C1B2 36%, #37D1BE 46%, #25C1B2 56%); }
+    50% { background: linear-gradient(141deg, #25C1B2 41%, #37D1BE 51%, #25C1B2 61%); }
+    55% { background: linear-gradient(141deg, #25C1B2 46%, #37D1BE 56%, #25C1B2 66%); }
+    60% { background: linear-gradient(141deg, #25C1B2 51%, #37D1BE 61%, #25C1B2 71%); }
+    65% { background: linear-gradient(141deg, #25C1B2 56%, #37D1BE 66%, #25C1B2 76%); }
+    70% { background: linear-gradient(141deg, #25C1B2 61%, #37D1BE 71%, #25C1B2 81%); }
+    75% { background: linear-gradient(141deg, #25C1B2 66%, #37D1BE 76%, #25C1B2 86%); }
+    80% { background: linear-gradient(141deg, #25C1B2 71%, #37D1BE 81%, #25C1B2 91%); }
+    85% { background: linear-gradient(141deg, #25C1B2 76%, #37D1BE 86%, #25C1B2 96%); }
+    90% { background: linear-gradient(141deg, #25C1B2 81%, #37D1BE 91%); }
+    95% { background: linear-gradient(141deg, #25C1B2 86%, #37D1BE 96%); }
+    100% { background: linear-gradient(141deg, #25C1B2 91%, #37D1BE 0%); }
+}
+
+
+@keyframes changeGradientWhite {
+    0% { background: linear-gradient(141deg, #DEF3FD 0%, #fff 11%); }
+    5% { background: linear-gradient(141deg, #DEF3FD 6%, #fff 16%); }
+    10% { background: linear-gradient(141deg, #fff 0%, #DEF3FD 11%, #fff 21%); }
+    15% { background: linear-gradient(141deg, #fff 6%, #DEF3FD 16%, #fff 26%); }
+    20% { background: linear-gradient(141deg, #fff 11%, #DEF3FD 21%, #fff 31%); }
+    25% { background: linear-gradient(141deg, #fff 16%, #DEF3FD 26%, #fff 36%); }
+    30% { background: linear-gradient(141deg, #fff 21%, #DEF3FD 31%, #fff 41%); }
+    35% { background: linear-gradient(141deg, #fff 26%, #DEF3FD 36%, #fff 46%); }
+    40% { background: linear-gradient(141deg, #fff 31%, #DEF3FD 41%, #fff 51%); }
+    45% { background: linear-gradient(141deg, #fff 36%, #DEF3FD 46%, #fff 56%); }
+    50% { background: linear-gradient(141deg, #fff 41%, #DEF3FD 51%, #fff 61%); }
+    55% { background: linear-gradient(141deg, #fff 46%, #DEF3FD 56%, #fff 66%); }
+    60% { background: linear-gradient(141deg, #fff 51%, #DEF3FD 61%, #fff 71%); }
+    65% { background: linear-gradient(141deg, #fff 56%, #DEF3FD 66%, #fff 76%); }
+    70% { background: linear-gradient(141deg, #fff 61%, #DEF3FD 71%, #fff 81%); }
+    75% { background: linear-gradient(141deg, #fff 66%, #DEF3FD 76%, #fff 86%); }
+    80% { background: linear-gradient(141deg, #fff 71%, #DEF3FD 81%, #fff 91%); }
+    85% { background: linear-gradient(141deg, #fff 76%, #DEF3FD 86%, #fff 96%); }
+    90% { background: linear-gradient(141deg, #fff 81%, #DEF3FD 91%); }
+    95% { background: linear-gradient(141deg, #fff 86%, #DEF3FD 96%); }
+    100% { background: linear-gradient(141deg, #fff 91%, #DEF3FD 0%); }
+}
+
+.ad-inserter-loading-button-container {
+    display: inline-block;
+    padding: 0 20px;
+    border-radius: 3px;
+    color: #fff;
+    text-transform: uppercase;
+    animation-duration: .8s;
+    animation-name: changeGradientGreen;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    cursor: progress;
+    line-height: 44px;
+    height: 44px;
+}
+
+.ad-inserter-loading-button-container.white {
+    background-color: #fff;
+    color: #43B4F9;
+    text-transform: uppercase;
+    text-shadow: none;
+    line-height: 40px;
+    border: 2px solid #43B4F9;
+    border-radius: 3px;
+    height: 40px;
+    padding: 0 20px;
+    cursor: progress;
+    display: inline-block;
+    animation-duration: .8s;
+    animation-name: changeGradientWhite;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+/* ========== loading screen ========== */
+.ad-inserter-loading-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.ad-inserter-loading-screen-container > div {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 40px;
+    color: #fff;
+    text-transform: uppercase;
+    animation-duration: .8s;
+    animation-name: changeGradientGreen;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    cursor: progress;
+    line-height: 44px;
+    font-weight: 500;
+    height: 80px;
+}
+
+.ad-inserter-loading-screen-container .material-icons {
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+    /* ========== table ========== */
+.ad-inserter .active-row {
+    background: linear-gradient(to bottom, #E6E6E6, #F2F2F2);
+}
+
+.ad-inserter-table {
+    border-collapse: collapse;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.ad-inserter-thead {
+    border-bottom: 2px solid #43B4F9;
+}
+
+.ad-inserter-thead > tr > th {
+    text-transform: uppercase;
+}
+
+.ad-inserter-th {
+    padding: 20px;
+}
+
+.ad-inserter-td {
+    padding: 20px;
+}
+
+.ad-inserter-table-data-fixed-width-uses {
+    width: 100px;
+}
+
+.ad-inserter-table-data-fixed-width-icon {
+    width: 44px;
+}
+
+.ad-inserter-table-cell-center {
+    text-align: center;
+}
+
+.ad-inserter-table-cell-left {
+    text-align: left;
+}
+
+.ad-inserter-table-edit-ad-view {
+    border-bottom: 2px solid #ccc;
+}
+
+.active.ad-inserter-table-edit-ad-view {
+    padding: 20px 10px;
+}
+
+.ad-inserter-table-edit-ad-view .ad-insertion-content-wrapper {
+    padding: 0 20px;
+}
+
+.ad-inserter-table-edit-ad-view button, .ad-inserter-table-edit-ad-view .ad-inserter-loading-button-container {
+    margin: 0 4px;
+}
+
+/* ========== no ad data ========== */
+.ad-inserter-no-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+}
+
+.ad-inserter-no-data > p {
+    align-self: center;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.ad-inserter-no-data > a {
+    align-self: center;
+}
+
+/* ========== only for test purposes (delete later!!!) ========== */
+.db-test-buttons {
+    margin-top: 100px;
+}

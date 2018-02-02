@@ -1,0 +1,11 @@
+{
+  "name" : "mpat/mpat-adinsertion",
+  "description" : "Plugin to insert ads into DASH/HLS streams.",
+  "version" : "1.0.0",
+  "license" : "GPL3",
+  "authors" : [{
+    "name" : "Mark-003"
+    }
+  ],
+  "type" : "wordpress-plugin"
+}
