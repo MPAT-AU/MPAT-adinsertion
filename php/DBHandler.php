@@ -39,7 +39,7 @@ if ( isset( $_POST['function'] ) ) {
             createVideo($_POST['json']);
             break;
         case 'updateVideo':                                 //1.4
-            updateVideo($_POST['id'],$_POST['json']);
+            updateVideo($_POST['json']);
             break; 
         case 'deleteVideo':                                 //1.5
             deleteVideo($_POST['id']);
@@ -77,7 +77,7 @@ if ( isset( $_POST['function'] ) ) {
         case 'updateAdBlockPart':                                //5.2
             updateAdBlockPart($_POST['ab_id'],$_POST['order_nr'],$_POST['ad_id']);
             break; 
-        case 'deleteAdBlock':                                    //5.3
+        case 'deleteAdBlockPart':                                    //5.3
             deleteAdBlockPart($_POST['ab_id'],$_POST['order_nr']);
             break;                
     }
@@ -139,6 +139,7 @@ function createVideoPartTable() {
                 dash_url VARCHAR(1000),
                 hls_url VARCHAR(1000),
                 part_nr INT,
+                duration INT,
                 CONSTRAINT `fk_video_part_video` FOREIGN KEY (v_id) REFERENCES video (id) ON DELETE CASCADE ON UPDATE RESTRICT
             )'
         );
@@ -192,7 +193,8 @@ function createAdTable() {
                 id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(1000),
                 dash_url VARCHAR(1000),
-                hls_url VARCHAR(1000)
+                hls_url VARCHAR(1000),
+                duration INT
             )'
         );
     }
@@ -252,34 +254,94 @@ function deleteAdTable() {
     }
 }
 
-
-
-
-
-
-
 //1.1.1
 function getVideos() {
     global $wpdb;
+    $return_videos = array();
 
-    $results = $wpdb->get_results( 
-        'SELECT id, name, output_dash_url, output_hls_url, number_of_video_parts, number_of_ad_blocks, number_of_ads
-            FROM video v, 
-	            (SELECT v_id, COUNT(*) as number_of_video_parts 
-    	            FROM video_part
-    	            GROUP BY v_id) novp,
-                (SELECT vp.v_id, COUNT(*) as number_of_ad_blocks
+    $videos = $wpdb->get_results( 
+        'SELECT id, name, output_dash_url, output_hls_url, IFNULL(number_of_video_parts, 0) AS number_of_video_parts, IFNULL(number_of_ad_blocks, 0) AS number_of_ad_blocks, IFNULL(number_of_ads, 0) AS number_of_ads, IFNULL(dur.duration, 0) AS duration
+            FROM video v
+			LEFT JOIN (SELECT v_id, COUNT(*) as number_of_video_parts 
+					FROM video_part
+    	            GROUP BY v_id) novp ON v.id = novp.v_id
+			LEFT JOIN (SELECT vp.v_id, COUNT(*) as number_of_ad_blocks
 		            FROM video_part vp, ad_block ab
 		            WHERE vp.id = ab.vp_id
-		            GROUP BY vp.v_id) noab,
-                (SELECT vp.v_id, COUNT(*) AS number_of_ads
+		            GROUP BY vp.v_id) noab ON v.id = noab.v_id
+			LEFT JOIN (SELECT vp.v_id, COUNT(*) AS number_of_ads
 					FROM video_part vp, ad_block ab, ad_block_part abp
 					WHERE vp.id = ab.vp_id AND ab.id = abp.ab_id
-					GROUP BY vp.v_id) noa
-            WHERE v.id = novp.v_id AND novp.v_id = noab.v_id AND noab.v_id = noa.v_id'
+					GROUP BY vp.v_id) noa ON v.id = noa.v_id
+			LEFT JOIN (SELECT v.id AS v_id, SUM(vp.duration) + SUM(IFNULL(ad_block_duration,0)) AS duration
+	                    FROM video v, video_part vp
+                        LEFT JOIN (SELECT ab.vp_id, SUM(ad.duration) as ad_block_duration
+				                    FROM ad_block ab, ad_block_part abp, ad
+	    		                    WHERE ab.id = abp.ab_id AND abp.ad_id = ad.id
+	    		        GROUP BY ab.vp_id) ad_sum ON vp.id = ad_sum.vp_id
+	    WHERE v.id = vp.v_id
+	    GROUP BY v.id) dur ON v.id = dur.v_id'
     );
  
-    $json = json_encode( $results );
+    foreach( $videos as $video ) {
+        $video_id = $video->id;
+        
+        $video_part_results = $wpdb->get_results( $wpdb->prepare(
+            'SELECT vp.id, vp.name as part_name, vp.duration as part_duration, SUM(IFNULL(ab.block_duration, 0)) + duration  as part_full_duration
+            FROM video_part vp
+          	LEFT JOIN (SELECT ab.vp_id, ab.id, SUM(ad.duration) as block_duration
+                					FROM ad_block ab, ad_block_part abp, ad
+                					WHERE ab.id = abp.ab_id AND abp.ad_id = ad.id
+                					GROUP BY ab.id) ab ON vp.id = ab.vp_id
+            WHERE v_id = %d
+            GROUP BY vp.id',
+            $video_id
+        ));
+        
+        foreach( $video_part_results as $video_part ) {
+            $video_part_id = $video_part->id;
+
+            $ad_block_results = $wpdb->get_results( $wpdb->prepare(
+                'SELECT ab.id, SUM(ad.duration) as block_duration, ab.sec_in_part as block_start
+                FROM ad_block ab, ad_block_part abp, ad
+                WHERE ab.id = abp.ab_id AND abp.ad_id = ad.id AND vp_id = %d
+                GROUP BY ab.id',
+                $video_part_id
+            ));
+
+            foreach( $ad_block_results as $ad_block ) {
+                $ad_block_id = $ad_block->id;
+    
+                $ad_block_part_results = $wpdb->get_results( $wpdb->prepare(
+                    'SELECT *
+                    FROM ad_block_part
+                    WHERE ab_id = %d
+                    ORDER BY ab_id ASC, order_nr ASC',
+                    $ad_block_id
+                ));
+
+                foreach( $ad_block_part_results as $ad_block_part ) {
+                    $ad_block_part_ad_id = $ad_block_part->ad_id;
+        
+                    $ad_results = $wpdb->get_results( $wpdb->prepare(
+                        'SELECT name as ad_name, duration
+                        FROM ad
+                        WHERE id = %d',
+                        $ad_block_part_ad_id
+                    ));         
+
+                    $ad_block_part->ad = $ad_results[0];
+                    $ad_block->ad_block_parts[] = $ad_block_part;
+                }
+                
+                $video_part->ad_blocks[] = $ad_block;
+            }
+            $video->video_parts[] = $video_part;
+        }
+        $return_videos[] = $video;
+    } 
+
+    $json = json_encode( $return_videos );
     echo $json;
 }
 
@@ -300,24 +362,69 @@ function getVideosForDropdown() {
 function getVideo($id) {
     global $wpdb;
 
-    $results = $wpdb->get_results( $wpdb->prepare(  
+    $video_results = $wpdb->get_results( $wpdb->prepare(
         'SELECT *
         FROM video
         WHERE id = %d',
         $id
     ));
- 
-    $json = json_encode($results[0]);
+    
+    foreach( $video_results as $video ) {
+        $video_id = $video->id;
+        
+        $video_part_results = $wpdb->get_results( $wpdb->prepare(
+            'SELECT *
+            FROM video_part
+            WHERE v_id = %d',
+            $video_id
+        ));
+        
+        foreach( $video_part_results as $video_part ) {
+            $video_part_id = $video_part->id;
+
+            $ad_block_results = $wpdb->get_results( $wpdb->prepare(
+                'SELECT *
+                FROM ad_block
+                WHERE vp_id = %d',
+                $video_part_id
+            ));
+
+            foreach( $ad_block_results as $ad_block ) {
+                $ad_block_id = $ad_block->id;
+    
+                $ad_block_part_results = $wpdb->get_results( $wpdb->prepare(
+                    'SELECT *
+                    FROM ad_block_part
+                    WHERE ab_id = %d',
+                    $ad_block_id
+                ));
+
+                foreach( $ad_block_part_results as $ad_block_part ) {
+                    $ad_block_part_ad_id = $ad_block_part->ad_id;
+        
+                    $ad_results = $wpdb->get_results( $wpdb->prepare(
+                        'SELECT *
+                        FROM ad
+                        WHERE id = %d',
+                        $ad_block_part_ad_id
+                    ));         
+
+                    $ad_block_part->ad = $ad_results[0];
+                    $ad_block->ad_block_parts[] = $ad_block_part;
+                }
+                
+                $video_part->ad_blocks[] = $ad_block;
+            }
+            $video->video_parts[] = $video_part;
+        }
+    } 
+    $json = json_encode($video);
     echo $json;
 }
 
 // 1.3
 function createVideo($json){
     global $wpdb;
-    
-    //$json = json_decode($json);
-
-    //debug_to_console(json_encode($json));
 
     // ad's already exists
     // create video row
@@ -333,9 +440,7 @@ function createVideo($json){
 
     // create video_part row
     $parts = $json['parts'];
-    //debug_to_console( json_encode($parts) );
     foreach( $parts as $part ) {
-        //debug_to_console(json_encode($part));
         $part_result = $wpdb->insert( 
             'video_part', 
             array(  
@@ -343,14 +448,14 @@ function createVideo($json){
                 'name' => $part['name'],
                 'dash_url' => $part['dash_url'],
                 'hls_url' => $part['hls_url'],
-                'part_nr' => $part['part_nr']
+                'part_nr' => $part['part_nr'],
+                'duration' => $part['duration']
             )
         );
 
         $video_part_id = $wpdb->insert_id;
 
         $ad_blocks = $part['ad_blocks'];
-        //debug_to_console( json_encode($ad_blocks) );
 
         // create ad_block row
         foreach( $ad_blocks as $ad_block ) {
@@ -367,7 +472,6 @@ function createVideo($json){
             
             if (isset( $ad_block['ad_block_parts'] )) {
                 $ad_block_parts = $ad_block['ad_block_parts'];
-                echo( json_encode( $ad_block_parts ) );
     
                 foreach( $ad_block_parts as $ad_block_part ) {
                     $ad_block_part_result = $wpdb->insert(
@@ -385,33 +489,19 @@ function createVideo($json){
 }
 
 // 1.4
-function updateVideo($id,$json){
+function updateVideo($json){
     global $wpdb;
 
-    $result = $wpdb->update( 
-        'video', 
-        array( 
-            'name' => $json['name'],
-            'output_dash_url' => $json['output_dash_url'],
-            'output_hls_url' => $json['output_hls_url']
-        ),
-        array(
-            'id' => $id 
-        ), 
-        array( 
-            '%s',
-            '%s',
-            '%s'
-        ),
-        array(
-            '%d'
-        )
-    );
+    $video_id = $json['id'];
 
-    if (false === $result){
-        echo false;
-    } else {
+    deleteVideo($video_id);
+    createVideo($json);
+
+
+    if ($result){
         echo true;
+    } else {
+        echo false;
     } 
 }
 
@@ -530,6 +620,20 @@ function deleteVideoPart($id){
     } 
 }
 
+function getVideoParts( $video_id ) {
+    global $wpdb;
+
+    $results = $wpdb->get_results( $wpdb->prepare(  
+        'SELECT id
+        FROM video_part
+        WHERE v_id = %d',
+        $video_id
+    ));
+ 
+    $json = json_encode($results);
+    return $json;
+}
+
 
 
 
@@ -641,7 +745,7 @@ function getAdsWithCount() {
     global $wpdb;
 
     $results = $wpdb->get_results( 
-        "   SELECT ad.id, ad.name, ad.dash_url, ad.hls_url, IFNULL(aduse.uses,0) AS uses
+        "   SELECT ad.id, ad.name, ad.dash_url, ad.hls_url, ad.duration, IFNULL(aduse.uses,0) AS uses
             FROM ad LEFT JOIN (SELECT ad_block_part.ad_id AS id, COUNT(*) AS uses 
                             FROM ad_block_part 
                             GROUP BY ad_block_part.ad_id) AS aduse ON  ad.id = aduse.id
@@ -670,7 +774,7 @@ function getAd($id) {
         $json = json_encode($result[0]);
         echo $json;
     }
-    
+    return $json;
 }
 
 // 4.3
@@ -682,19 +786,21 @@ function createAd($json){
         array( 
             'name' => $json['name'], 
             'dash_url' => $json['dash_url'],
-            'hls_url' => $json['hls_url']
+            'hls_url' => $json['hls_url'],
+            'duration' => $json['duration']
         ), 
         array( 
             '%s', 
             '%s',
-            '%s' 
+            '%s',
+            '%d' 
         ) 
     );
 
     if (false === $result){
         echo false;
     } else {
-        echo true;
+        getAd($wpdb->insert_id);
     } 
 }
 
@@ -707,7 +813,8 @@ function updateAd($id,$json){
         array( 
             'name' => $json['name'], 
             'dash_url' => $json['dash_url'],
-            'hls_url' => $json['hls_url']
+            'hls_url' => $json['hls_url'],
+            'duration' => $json['duration']
         ),
         array(
             'id' => $id
@@ -715,7 +822,8 @@ function updateAd($id,$json){
         array( 
             '%s', 
             '%s',
-            '%s' 
+            '%s',
+            '%d' 
         ),
         array(
             '%d'
@@ -900,7 +1008,8 @@ function createData() {
         array( 
             'name' => 'ad 1',
             'dash_url' => 'ad dash url 1',
-            'hls_url' => 'ad hls url 1'
+            'hls_url' => 'ad hls url 1',
+            'duration' => 16345
         )
     );
 
@@ -909,7 +1018,8 @@ function createData() {
         array( 
             'name' => 'ad 2',
             'dash_url' => 'ad dash url 2',
-            'hls_url' => 'ad hls url 2'
+            'hls_url' => 'ad hls url 2',
+            'duration' => 20324
         )
     );
     
@@ -918,11 +1028,12 @@ function createData() {
         array( 
             'name' => 'ad 3',
             'dash_url' => 'ad dash url 3',
-            'hls_url' => 'ad hls url 3'
+            'hls_url' => 'ad hls url 3',
+            'duration' => 12839
         )
     );
 
-    // create parts
+    // create video parts
     $wpdb->insert( 
         'video_part', 
         array( 
@@ -930,7 +1041,8 @@ function createData() {
             'name' => 'video_part 1',
             'dash_url' => 'video_part dash url 1',
             'hls_url' => 'video_part hls url 1',
-            'part_nr' => 1
+            'part_nr' => 1,
+            'duration' => 120342
         )
     );
 
@@ -941,7 +1053,8 @@ function createData() {
             'name' => 'video_part 2',
             'dash_url' => 'video_part dash url 2',
             'hls_url' => 'video_part hls url 2',
-            'part_nr' => 2
+            'part_nr' => 2,
+            'duration' => 80338
         )
     );
 
@@ -952,7 +1065,8 @@ function createData() {
             'name' => 'video_part 3',
             'dash_url' => 'video_part dash url 3',
             'hls_url' => 'video_part hls url 3',
-            'part_nr' => 3
+            'part_nr' => 3,
+            'duration' => 43895
         )
     );
 
@@ -963,7 +1077,8 @@ function createData() {
             'name' => 'video_part 4',
             'dash_url' => 'video_part dash url 4',
             'hls_url' => 'video_part hls url 4',
-            'part_nr' => 1
+            'part_nr' => 1,
+            'duration' => 344893
         )
     );
 
@@ -974,7 +1089,8 @@ function createData() {
             'name' => 'video_part 5',
             'dash_url' => 'video_part dash url 5',
             'hls_url' => 'video_part hls url 5',
-            'part_nr' => 1
+            'part_nr' => 1,
+            'duration' => 49844
         )
     );
 
@@ -985,7 +1101,8 @@ function createData() {
             'name' => 'video_part 6',
             'dash_url' => 'video_part dash url 6',
             'hls_url' => 'video_part hls url 6',
-            'part_nr' => 2
+            'part_nr' => 2,
+            'duration' => 89493
         )
     );
 
@@ -996,7 +1113,8 @@ function createData() {
             'name' => 'video_part 7',
             'dash_url' => 'video_part dash url 7',
             'hls_url' => 'video_part hls url 7',
-            'part_nr' => 3
+            'part_nr' => 3,
+            'duration' => 100000
         )
     );
 
@@ -1007,7 +1125,8 @@ function createData() {
             'name' => 'video_part 8',
             'dash_url' => 'video_part dash url 8',
             'hls_url' => 'video_part hls url 8',
-            'part_nr' => 4
+            'part_nr' => 4,
+            'duration' => 3399949
         )
     );
        
@@ -1018,7 +1137,8 @@ function createData() {
             'name' => 'video_part 9',
             'dash_url' => 'video_part dash url 9',
             'hls_url' => 'video_part hls url 9',
-            'part_nr' => 1
+            'part_nr' => 1,
+            'duration' => 37828
         )
     );
     
@@ -1027,7 +1147,7 @@ function createData() {
         'ad_block', 
         array(
             'vp_id' => 1,
-            'sec_in_part' => 10
+            'sec_in_part' => 8983
         )
     );
 
@@ -1035,7 +1155,7 @@ function createData() {
         'ad_block', 
         array(
             'vp_id' => 4,
-            'sec_in_part' => 15
+            'sec_in_part' => 2390
         )
     );
 
@@ -1043,7 +1163,7 @@ function createData() {
         'ad_block', 
         array(
             'vp_id' => 7,
-            'sec_in_part' => 5
+            'sec_in_part' => 12990
         )
     );
 
@@ -1051,7 +1171,7 @@ function createData() {
         'ad_block', 
         array(
             'vp_id' => 8,
-            'sec_in_part' => 5
+            'sec_in_part' => 2990
         )
     );
 
@@ -1059,7 +1179,7 @@ function createData() {
         'ad_block', 
         array(
             'vp_id' => 9,
-            'sec_in_part' => 5
+            'sec_in_part' => 4500
         )
     );
 

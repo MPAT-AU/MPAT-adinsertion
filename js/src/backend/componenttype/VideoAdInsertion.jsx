@@ -24,11 +24,19 @@
  * Stefano Miccoli (stefano.miccoli@finconsgroup.com)
  * Marco Ferrari (marco.ferrari@finconsgroup.com)
  **/
+
+import componentLoader from 'component-loader-backend'
+import React from 'react-backend'
+
 import autobind from 'class-autobind'
 
-import React from 'react-backend'
-import componentLoader from 'component-loader-backend'
-import { openMediaGallery, noSubmitOnEnter } from 'core-utils'
+function noSubmitOnEnter(event) {
+    const keyCode = event.which || event.keyCode;
+    if (keyCode === 13) {
+        event.preventDefault();
+        return false;
+    }
+}
 
 function editView(params) {
     const {id, data, changeAreaContent, context, stateId} = params
@@ -83,7 +91,7 @@ class AdInsertedVideoEdit extends React.PureComponent {
     getVideosForDropdown() {
         return new Promise((resolve, reject) =>
             $.ajax({
-                url: window.location.origin +'/app/plugins/mpat-adinsertion-plugin/admin/php/DBHandler.php',
+                url: wp_home.document_root +'/app/plugins/mpat-adinsertion/php/DBHandler.php',
                 data: {function: 'getVideosForDropdown'},
                 type: 'get',
                 success: function(data) {
@@ -247,5 +255,7 @@ componentLoader.registerComponent(
         isStylable: false
     }, {
         navigable: true
-    }
+    },
+    []
 )
+

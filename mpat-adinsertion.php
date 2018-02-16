@@ -17,21 +17,35 @@
 class AdInsertion {
 
     public static function plugin_frontend_script() {
-        wp_enqueue_script('mpat_core', plugin_dir_url(__FILE__) . '/../../mpat-plugins/js/mpat_core.min.js', array(), 1, true);
+//        wp_enqueue_script('mpat_core', plugin_dir_url(__FILE__) . '/../../mpat-plugins/js/mpat_core.min.js', array(), 1, true);
         wp_enqueue_script('AdInsertionFrontend', plugin_dir_url(__FILE__) . 'js/dist/frontend.min.js', array(), 1, true);
+//        wp_enqueue_script('AdInsertionFrontend', plugin_dir_url(__FILE__) . 'js/src/backend/componenttype/VideoAdInsertion.jsx', array(), 1, true);
+
     }
 
     public static function plugin_backend_script() {
-        wp_enqueue_script('mpat_admin', plugin_dir_url(__FILE__) . '/../../mpat-plugins/js/mpat_admin.min.js', array(), 1, true);
+        wp_register_script('AdInsertionInterface', plugin_dir_url(__FILE__) . 'js/dist/interface.min.js');
+        wp_register_script('AdInsertionBackend', plugin_dir_url(__FILE__) . 'js/dist/backend.min.js');
+
+        $wp_home_array = array('document_root' => WP_HOME);
+
+        wp_localize_script('AdInsertionInterface', 'wp_home', $wp_home_array);
+        wp_localize_script('AdInsertionBackend', 'wp_home', $wp_home_array);
+
+//        wp_enqueue_script('mpat_admin', plugin_dir_url(__FILE__) . '/../../mpat-plugins/js/mpat_admin.min.js', array(), 1, true);
+        wp_enqueue_script('AdInsertionInterface', plugin_dir_url(__FILE__) . 'js/dist/interface.min.js', array(), 1, true);
         wp_enqueue_script('AdInsertionBackend', plugin_dir_url(__FILE__) . 'js/dist/backend.min.js', array(), 1, true);
+//        wp_enqueue_script('AdInsertionBackend', plugin_dir_url(__FILE__) . 'js/src/frontend/VideoAdInsertionContent.jsx', array(), 1, true);
         wp_enqueue_style('AdInsertion', plugin_dir_url(__FILE__) . 'css/style.css');
     }
 
     static function display() {
+        $path = $_SERVER['DOCUMENT_ROOT'];
+//        include_once $path . '/app/plugins/mpat-adinsertion/admin/php/DBCreateTable.php';
         ?>
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <div id="reactRoot" class="wrap ad-inserter"></div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <div id="reactRoot" class="wrap ad-inserter"></div>
         <?php
     }
 
