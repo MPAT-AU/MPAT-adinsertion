@@ -315,7 +315,7 @@ class AdTable extends React.Component {
             (
                 this.state.adDataArray.length === 0 ?
                 <NoData datatype='ads'
-                        linkToNew='/wp/wp-admin/admin.php?page=mpat-ad-insertion-new-ad'
+                        linkToNew='wp/wp-admin/admin.php?page=mpat-ad-insertion-new-ad'
                         from='mpat-ad-insertion-all-ads'
                         to='mpat-ad-insertion-new-ad'
                         buttonText='new ad'/>

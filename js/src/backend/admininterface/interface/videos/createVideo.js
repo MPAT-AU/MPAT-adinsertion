@@ -426,7 +426,7 @@ class CreateVideo extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to='/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'/>
+            return <Redirect push to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}/>
         }
 
         let startTime = 0
@@ -487,7 +487,7 @@ class CreateVideo extends React.Component {
                     </div>
 
                     <div className='ad-inserter-right-button-group'>
-                        <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}>
+                        <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}>
                             <button type='button'
                                     className='ad-inserter-button-white-blue'
                                     onClick={() => highlightNavigation('mpat-ad-insertion-new-video', 'mpat-ad-insertion-all-ad-inserted-videos')}>

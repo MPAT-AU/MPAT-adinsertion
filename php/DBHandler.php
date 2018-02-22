@@ -1,19 +1,16 @@
 <?php
-// $mpat_table_prefix = 'mpat';
-
-// just for debugging
-function debug_to_console( $data ) {
-    $output = $data;
-    if ( is_array( $output ) )
-        $output = implode( ',', $output);
-
-    echo "<script>console.log( 'DB Handler Log: " . $output . "' );</script>";
-}
-
 // includes the $wpdb class
-define( 'SHORTINIT', true );
-$path = $_SERVER['DOCUMENT_ROOT'];
-include_once $path . '/wp/wp-load.php';
+
+$path_part = '';
+if(isset( $_POST['path'] )) {
+    $path_part = $_POST['path'];
+}
+if(isset( $_GET['path'] )) {
+    $path_part = $_GET['path'];
+}
+$path = $_SERVER['DOCUMENT_ROOT'] . $path_part . 'wp/wp-load.php';
+
+include_once $path;
 
 // handling POST requests
 if ( isset( $_POST['function'] ) ) {

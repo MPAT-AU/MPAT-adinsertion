@@ -297,7 +297,7 @@ class VideoTable extends React.Component {
             (
                 this.state.videoDataArray.length === 0 ?
                 <NoData datatype='videos'
-                        linkToNew='/wp/wp-admin/admin.php?page=mpat-ad-insertion-new-video'
+                        linkToNew='wp/wp-admin/admin.php?page=mpat-ad-insertion-new-video'
                         from='mpat-ad-insertion-all-ad-inserted-videos'
                         to='mpat-ad-insertion-new-video'
                         buttonText='new Video'/>

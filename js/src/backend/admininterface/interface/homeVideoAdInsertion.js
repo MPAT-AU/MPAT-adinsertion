@@ -92,7 +92,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     <img src='http://img1.img1.de/allAdInsertedVideos48005d97.gif' />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
-                                    <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}>
+                                    <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}>
                                         <button className='ad-inserter-button-white-blue'
                                                 onClick={() => highlightNavigation('mpat-ad-insertion','mpat-ad-insertion-all-ad-inserted-videos')}>
                                             <i className="material-icons">reorder</i>all ad inserted videos
@@ -112,7 +112,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     <img src='http://img1.img1.de/newVideo4808dd20.gif' />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
-                                    <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-new-video'}>
+                                    <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-new-video'}>
                                         <button className='ad-inserter-button-white-blue'
                                                 onClick={() => highlightNavigation('mpat-ad-insertion','mpat-ad-insertion-new-video')}>
                                             <i className="material-icons">add</i>new video
@@ -138,7 +138,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     <img src='http://img1.img1.de/allAds480489ae.gif' />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
-                                    <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}>
+                                    <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}>
                                         <button className='ad-inserter-button-white-blue'
                                                 onClick={() => highlightNavigation('mpat-ad-insertion','mpat-ad-insertion-all-ads')}>
                                             <i className="material-icons">reorder</i>all ads
@@ -159,7 +159,7 @@ class HomeVideoAdInsertion extends React.Component {
                                 </div>
 
                                 <div className='ad-inserter-start-page-button-container'>
-                                    <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-new-ad'}>
+                                    <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-new-ad'}>
                                         <button className='ad-inserter-button-white-blue'
                                                 onClick={() => highlightNavigation('mpat-ad-insertion','mpat-ad-insertion-new-ad')}>
                                             <i className="material-icons">add</i>new ad

@@ -93,7 +93,7 @@ class CreateAd extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to='/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'/>
+            return <Redirect push to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}/>
         }
         return (
             <form className='ad-inserter-create-ad' onSubmit={this.handleSubmit}>
@@ -136,7 +136,7 @@ class CreateAd extends React.Component {
                            onChange={this.handleChange}/>
                 </div>
                 <div className='ad-inserter-right-button-group'>
-                    <Link to={'/wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}>
+                    <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}>
                         <button type='button'
                                 className='ad-inserter-button-white-blue'
                                 onClick={() => highlightNavigation('mpat-ad-insertion-new-ad', 'mpat-ad-insertion-all-ads')}>

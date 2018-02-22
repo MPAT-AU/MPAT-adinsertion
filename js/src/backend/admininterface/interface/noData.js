@@ -10,7 +10,7 @@ class NoData extends React.Component {
         return (
             <div className='ad-inserter-no-data'>
                 <p>no {this.props.datatype} created yet create some</p>
-                <Link to={this.props.linkToNew}>
+                <Link to={env.path + this.props.linkToNew}>
                     <button className='ad-inserter-button-white-blue'
                             onClick={() => highlightNavigation(this.props.from,this.props.to)}>
                         <i className="material-icons">add</i>{this.props.buttonText}

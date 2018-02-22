@@ -91,8 +91,11 @@ class AdInsertedVideoEdit extends React.PureComponent {
     getVideosForDropdown() {
         return new Promise((resolve, reject) =>
             $.ajax({
-                url: wp_home.document_root +'/app/plugins/mpat-adinsertion/php/DBHandler.php',
-                data: {function: 'getVideosForDropdown'},
+                url: env.document_root +'/app/plugins/mpat-adinsertion/php/DBHandler.php',
+                data: {
+                    function: 'getVideosForDropdown',
+                    path: env.path
+                },
                 type: 'get',
                 success: function(data) {
                     resolve(JSON.parse(data));

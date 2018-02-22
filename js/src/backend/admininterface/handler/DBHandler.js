@@ -3,10 +3,14 @@ var debuggingON = false;
 // creates all necessary tables
 // POST
 export function createTables() {
+    console.log('js ist am start')
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createTables'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createTables',
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -14,9 +18,9 @@ export function createTables() {
             }
             resolve(true);
         },
-        error: function (error) {
+        error: function (error, status, message) {
             if (debuggingON){
-                console.log("createTables()- Error happened: " + error);
+                console.log("createTables()- Error happened: " + message);
             }
             reject(false);
         }
@@ -26,8 +30,11 @@ export function createTables() {
 export function deleteTables() {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteTables'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteTables',
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -50,8 +57,11 @@ export function deleteTables() {
 export function getVideos() {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getVideos'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getVideos',
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -74,8 +84,11 @@ export function getVideos() {
 export function getVideosForDropdown() {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getVideosForDropdown'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getVideosForDropdown',
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -98,8 +111,12 @@ export function getVideosForDropdown() {
 export function getVideo(id) {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getVideo', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getVideo',
+            id: id,
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -122,8 +139,12 @@ export function getVideo(id) {
 export function createVideo(json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createVideo', json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createVideo',
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -146,8 +167,12 @@ export function createVideo(json){
 export function updateVideo(json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'updateVideo', json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'updateVideo',
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -170,8 +195,12 @@ export function updateVideo(json){
 export function deleteVideo(id){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteVideo', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteVideo',
+            id: id,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -197,8 +226,12 @@ export function deleteVideo(id){
 export function createVideoPart(json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createVideoPart', json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createVideoPart',
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -221,8 +254,13 @@ export function createVideoPart(json){
 export function updateVideoPart(id,json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'updateVideoPart',id: id, json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'updateVideoPart',
+            id: id,
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -245,8 +283,12 @@ export function updateVideoPart(id,json){
 export function deleteVideoPart(id){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteVIdeoPart', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteVIdeoPart',
+            id: id,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -271,8 +313,12 @@ export function deleteVideoPart(id){
 export function createAdBlock(json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createAdBlock', json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createAdBlock',
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -295,8 +341,13 @@ export function createAdBlock(json){
 export function updateAdBlock(id,json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'updateAdBlock',id: id, json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'updateAdBlock',
+            id: id,
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -319,8 +370,12 @@ export function updateAdBlock(id,json){
 export function deleteAdBlock(id){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteAdBlock', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteAdBlock',
+            id: id,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -345,8 +400,11 @@ export function deleteAdBlock(id){
 export function getAds() {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getAds'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getAds',
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -370,8 +428,11 @@ export function getAds() {
 export function getAdsWithCount() {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getAdsWithCount'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getAdsWithCount',
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -394,8 +455,12 @@ export function getAdsWithCount() {
 export function getAd(id) {
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'getAd', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'getAd',
+            id: id,
+            path: env.path
+        },
         type: 'get',
         success: function(data) {
             if (debuggingON){
@@ -418,8 +483,12 @@ export function getAd(id) {
 export function createAd(json){
     return new Promise((resolve, reject) =>
         $.ajax({
-            url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-            data: {function: 'createAd', json: json},
+            url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+            data: {
+                function: 'createAd',
+                json: json,
+                path: env.path
+            },
             type: 'post',
             success: function(data) {
                 if (debuggingON){
@@ -442,8 +511,13 @@ export function createAd(json){
 export function updateAd(id,json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'updateAd',id: id, json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'updateAd',
+            id: id,
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -466,8 +540,12 @@ export function updateAd(id,json){
 export function deleteAd(id){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteAd', id: id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteAd',
+            id: id,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -492,8 +570,12 @@ export function deleteAd(id){
 export function createAdBlockPart(json){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createAdBlockPart', json: json},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createAdBlockPart',
+            json: json,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -516,8 +598,14 @@ export function createAdBlockPart(json){
 export function updateAdBlockPart(ab_id,order_nr,ad_id){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'updateAdBlock',ab_id: ab_id, order_nr: order_nr, ad_id:ad_id},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'updateAdBlock',
+            ab_id: ab_id,
+            order_nr: order_nr,
+            ad_id:ad_id,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -540,8 +628,13 @@ export function updateAdBlockPart(ab_id,order_nr,ad_id){
 export function deleteAdBlockPart(ab_id,order_nr){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'deleteAdBlock', ab_id: ab_id, order_nr:order_nr},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'deleteAdBlock',
+            ab_id: ab_id,
+            order_nr:order_nr,
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
@@ -573,8 +666,11 @@ export function deleteAdBlockPart(ab_id,order_nr){
 export function createData(){
     return new Promise((resolve, reject) =>
     $.ajax({
-        url: wp_home.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
-        data: {function: 'createData'},
+        url: env.document_root + '/app/plugins/mpat-adinsertion/php/DBHandler.php',
+        data: {
+            function: 'createData',
+            path: env.path
+        },
         type: 'post',
         success: function(data) {
             if (debuggingON){
