@@ -1,6 +1,6 @@
 # MPAT-Ad-Insertion-Plugin
 Plugin to create ad inserted videos for [MPAT project](http://mpat.eu/).
-It depends on the [MPAT-Core plugin](https://github.com/MPAT-eu).
+It depends on [MPAT-Core plugin](https://github.com/MPAT-eu).
 
 ## Requirements
 
@@ -11,7 +11,7 @@ It depends on the [MPAT-Core plugin](https://github.com/MPAT-eu).
 
 * Add the plugin to your `MPAT-core/web/app/plugins/` directory:  
   #### Using Composer
-  * Add the following code into the `composer.json` of MPAT-core:
+  * Add following code into the `composer.json` of MPAT-core:
     ``` 
     "repositories" : [
         ...
@@ -39,13 +39,13 @@ It depends on the [MPAT-Core plugin](https://github.com/MPAT-eu).
 
 ## Usage
 This Plugin enables you to create ad inserted videos very easily.
-* See a full list of all your ad inserted videos.
+* See full list of all your ad inserted videos.
 
   ![table of all ad inserted videos](assets/gifs/allAdInsertedVideos-480.gif)
 * Create new ad inserted videos.
 
   ![create new ad inserted videos](assets/gifs/newVideo-480.gif)
-* See a full list of all your ads.
+* See full list of all your ads.
 
   ![table of all ads](assets/gifs/allAds-480.gif)
 * Create new ads.

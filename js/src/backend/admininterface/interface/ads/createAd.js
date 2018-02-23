@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import { highlightNavigation } from '../../helper/wpRouting'
 import { createAd } from '../../handler/DBHandler'
 import LoadingButton from '../loadingButton'
-import { waitTwoSeconds } from '../demoHelper'
 import { getDuration } from '../../handler/DaiHandler'
 
 class CreateAd extends React.Component {
@@ -61,33 +60,18 @@ class CreateAd extends React.Component {
                 hls_url: this.state.hls
             }
         })
-        // .then( json => {
-        //     createAd(json)
-        //             .then(result => {
-        //                 this.setState({createdAd: false})
-        //                 if (result) {
-        //                     this.setState({redirect: true});
-        //                     highlightNavigation('mpat-ad-insertion-new-ad', 'mpat-ad-insertion-all-ads')
-        //                 } else {
-        //                     console.log('Error')
-        //                 }
-        //             })
-        // })
-        // only for demo purposes
-            .then( json => {
-                waitTwoSeconds(2000).then(() =>
-                    createAd(json)
-                        .then(result => {
-                            this.setState({createdAd: false})
-                            if (result) {
-                                this.setState({redirect: true})
-                                highlightNavigation('mpat-ad-insertion-new-ad', 'mpat-ad-insertion-all-ads')
-                            } else {
-                                console.log('Error')
-                            }
-                        })
-                )
-            })
+        .then( json => {
+            createAd(json)
+                .then(result => {
+                    this.setState({createdAd: false})
+                    if (result) {
+                        this.setState({redirect: true});
+                        highlightNavigation('mpat-ad-insertion-new-ad', 'mpat-ad-insertion-all-ads')
+                    } else {
+                        console.log('Error')
+                    }
+                })
+        })
         return false
     }
 

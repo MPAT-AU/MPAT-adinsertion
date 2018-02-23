@@ -7,7 +7,6 @@ import LoadingScreen from '../loadingScreen'
 import NoData from '../noData'
 import {changeFormat} from '../../helper/format'
 
-
 class VideoTable extends React.Component {
 
     constructor(props) {
@@ -42,10 +41,6 @@ class VideoTable extends React.Component {
         }, err => {
             console.log('Error ', err)
         })
-    }
-
-    handleClickOnEdit(index) {
-        console.log('goto edit')
     }
 
     handleClickOnShowHideTimeline(index) {

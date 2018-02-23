@@ -61,9 +61,7 @@ module.exports = {
     ] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        //Make Uglify JS remove all the React debug messages
         new webpack.DefinePlugin(ProductionDefines),
-        //see https://github.com/mishoo/UglifyJS2 for the parameter meanings
         new webpack.optimize.UglifyJsPlugin({
             compress:{
                 warnings:false,

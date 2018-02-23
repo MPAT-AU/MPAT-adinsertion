@@ -11,30 +11,30 @@ class VideoPart extends React.Component {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
-        this.handelClickOnAddAdBlock = this.handelClickOnAddAdBlock.bind(this)
+        this.handleClickOnAddAdBlock = this.handleClickOnAddAdBlock.bind(this)
     }
 
     handleChange(event) {
         this.props.onChange(this.props.part.part_nr, event.target.id, event.target.value, event.target.checkValidity())
     }
 
-    handelDelete() {
+    handleDelete() {
         this.props.onDelete(this.props.part.part_nr)
     }
 
-    handelClickUp() {
+    handleClickUp() {
         this.props.onClickUp(this.props.part.part_nr)
     }
 
-    handelClickDown() {
+    handleClickDown() {
         this.props.onClickDown(this.props.part.part_nr)
     }
 
-    handelClickOnAddAdBlock() {
+    handleClickOnAddAdBlock() {
         this.props.onClickAddAdBlock(this.props.part.part_nr)
     }
 
-    handelClickOnCreateAdBlock(event) {
+    handleClickOnCreateAdBlock(event) {
         const input = event.target.parentElement.parentElement.querySelector('#adBlockStart')
         if (input.checkValidity() && input.value !== '') {
             this.props.onClickCreateAdBlock(this.props.part.part_nr, input.value)
@@ -81,11 +81,11 @@ class VideoPart extends React.Component {
                     <div>
                         <div className='ad-inserter-up-down-keys'>
                             <i className="material-icons up-button"
-                               onClick={this.handelClickUp.bind(this)}>
+                               onClick={this.handleClickUp.bind(this)}>
                                 keyboard_arrow_up
                             </i>
                             <i className="material-icons down-button"
-                               onClick={this.handelClickDown.bind(this)}>
+                               onClick={this.handleClickDown.bind(this)}>
                                 keyboard_arrow_down
                             </i>
                         </div>
@@ -95,7 +95,7 @@ class VideoPart extends React.Component {
                        data-tip='React-tooltip'
                        data-delay-show='500'
                        data-for={'delete-video-part-' + this.props.part.part_nr}
-                       onClick={this.handelDelete.bind(this)}>
+                       onClick={this.handleDelete.bind(this)}>
                         delete
                     </i>
                     <ReactTooltip place='top'
@@ -176,12 +176,12 @@ class VideoPart extends React.Component {
                         <div className='ad-inserter-right-button-group'>
                             <button type='button'
                                     className='ad-inserter-button-white-blue'
-                                    onClick={this.handelClickOnAddAdBlock}>
+                                    onClick={this.handleClickOnAddAdBlock}>
                                 <i className="material-icons">clear</i>cancel
                             </button>
                             <button type='button'
                                     className='ad-inserter-button-green-white'
-                                    onClick={this.handelClickOnCreateAdBlock.bind(this)}>
+                                    onClick={this.handleClickOnCreateAdBlock.bind(this)}>
                                 <i className="material-icons">add</i>create ad block
                             </button>
                         </div>
@@ -190,7 +190,7 @@ class VideoPart extends React.Component {
                     <div className={ this.props.part.ad_blocks.length === 0 ? 'ad-inserter-video-right-button' : 'ad-inserter-video-right-button active-padding-top'}>
                         <button type='button'
                                 className='ad-inserter-button-white-blue'
-                                onClick={this.handelClickOnAddAdBlock}>
+                                onClick={this.handleClickOnAddAdBlock}>
                             <i className="material-icons">add</i>ad block
                         </button>
                     </div>

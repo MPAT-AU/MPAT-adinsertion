@@ -5,7 +5,6 @@ import ReactTooltip from 'react-tooltip'
 
 import { getAdsWithCount, updateAd, deleteAd } from '../../handler/DBHandler'
 import LoadingButton from '../loadingButton'
-import { waitTwoSeconds } from '../demoHelper'
 import LoadingScreen from '../loadingScreen'
 import NoData from '../noData'
 import {changeFormat} from '../../helper/format'
@@ -18,12 +17,7 @@ class AdTable extends React.Component {
             adDataArray: [],
             loadData: true
         }
-        // this.getAdDataArray()
-
-        // only for demo purposes
-        waitTwoSeconds(1000).then(() =>
-            this.getAdDataArray()
-        )
+        this.getAdDataArray()
     }
 
     getAdDataArray() {
@@ -84,32 +78,19 @@ class AdTable extends React.Component {
     handleSubmit(index, event) {
         event.preventDefault();
         this.setSaveAd(index)
-        // updateAd(this.state.adDataArray[index].id, json)
-        //     .then(result => {
-        //         this.setSaveAd(index)
-        //         if (result) {
-        //             this.setEditOpen(index)
-        //         } else {
-        //             console.log('Error')
-        //         }
-        //     })
-
-        // only for demo purposes
-        waitTwoSeconds(2000).then(() =>
-            getDuration(this.state.adDataArray[index].dash_url).then( duration => {
-                const json = this.getJsonForSubmit(index, duration)
-                updateAd(this.state.adDataArray[index].id, json)
-                    .then(result => {
-                        this.setSaveAd(index)
-                        if (result) {
-                            this.setEditOpen(index)
-                            this.getAdDataArray()
-                        } else {
-                            console.log('Error')
-                        }
-                    })
-            })
-        )
+        getDuration(this.state.adDataArray[index].dash_url).then( duration => {
+            const json = this.getJsonForSubmit(index, duration)
+            updateAd(this.state.adDataArray[index].id, json)
+                .then(result => {
+                    this.setSaveAd(index)
+                    if (result) {
+                        this.setEditOpen(index)
+                        this.getAdDataArray()
+                    } else {
+                        console.log('Error')
+                    }
+                })
+        })
         return false
     }
 
@@ -121,28 +102,15 @@ class AdTable extends React.Component {
 
     handleDelete(index) {
         this.setDeleteAd(index)
-        // deleteAd(this.state.adDataArray[index].id)
-        //     .then(result => {
-        //         this.setDeleteAd(index)
-        //         if (result) {
-        //             this.removeAd(index)
-        //         } else {
-        //             console.log('Error')
-        //         }
-        //     })
-
-        // only for demo purposes
-        waitTwoSeconds(1000).then(() =>
-            deleteAd(this.state.adDataArray[index].id)
-                .then(result => {
-                    this.setDeleteAd(index)
-                    if (result) {
-                        this.removeAd(index)
-                    } else {
-                        console.log('Error')
-                    }
-                })
-        )
+        deleteAd(this.state.adDataArray[index].id)
+            .then(result => {
+                this.setDeleteAd(index)
+                if (result) {
+                    this.removeAd(index)
+                } else {
+                    console.log('Error')
+                }
+            })
     }
 
     removeAd(index) {
