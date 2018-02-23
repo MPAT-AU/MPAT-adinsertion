@@ -36,7 +36,8 @@ It depends on the [MPAT-Core plugin](https://github.com/MPAT-eu).
 * change directory to `[path to MPAT-core installation]/MPAT-core/web/app/plugins/mpat-adinsertion/`
 * run `npm install`
 * run `npm run build`
-##Usage
+
+## Usage
 This Plugin enables you to create ad inserted videos very easily.
 * See a full list of all your ad inserted videos.
 
