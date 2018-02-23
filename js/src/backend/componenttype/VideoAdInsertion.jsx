@@ -39,7 +39,7 @@ function noSubmitOnEnter(event) {
 }
 
 function editView(params) {
-    const {id, data, changeAreaContent, context, stateId} = params
+    const {id, data, changeAreaContent} = params
     return (
         <AdInsertedVideoEdit id={id} {...data} changeAreaContent={changeAreaContent}/>
     )
@@ -58,6 +58,7 @@ function preview(content = {}) {
 class AdInsertedVideoEdit extends React.PureComponent {
 
     static defaultProps = {
+        url: '',
         autostart: false,
         loop: false,
         fullscreen: false,
@@ -67,11 +68,12 @@ class AdInsertedVideoEdit extends React.PureComponent {
         thumbnail: ''
     }
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             adInsertedVideoArray: [],
-            videosAvailable: false
+            videosAvailable: false,
+            selectedVideo: this.props.url
         }
         autobind(this)
         this.getAdInsertedVideoArray()
@@ -79,10 +81,24 @@ class AdInsertedVideoEdit extends React.PureComponent {
 
     getAdInsertedVideoArray() {
         this.getVideosForDropdown().then(result => {
-            this.setState({
-                adInsertedVideoArray: result,
-                videosAvailable: true
-            })
+            if(result.length !== 0) {
+                const sortedVideos = result.sort((a, b) => {
+                    const nameA = a.name.toUpperCase()
+                    const nameB = b.name.toUpperCase()
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                })
+                this.setState({
+                    adInsertedVideoArray: sortedVideos,
+                    videosAvailable: true
+                })
+            } else {
+                this.setState({
+                    adInsertedVideoArray: result,
+                    videosAvailable: false
+                })
+            }
         }, err => {
             console.log('Error ', err)
         })
@@ -106,35 +122,27 @@ class AdInsertedVideoEdit extends React.PureComponent {
             }));
     }
 
-    setContent(key, value) {
-        if (key === 'url' || key === 'thumbnail') {
-            this.props.changeAreaContent({
-                [key]: value,
-                'asset': '',
-            })
-        } else {
-            this.props.changeAreaContent({[key]: value})
-        }
+    handleChangeOnDropdown(event) {
+        const url = event.target.value
+        this.setState({selectedVideo: url})
+        this.setContent('url', url)
     }
 
-    setAsset(value, item) {
-        if (item === null) {
-            this.props.changeAreaContent({'asset': value})
-        } else {
-            this.props.changeAreaContent({
-                'asset': item.meta['_tva_title'],
-                'url': item.meta['_tva_hbbtv_reference_video_url'][0],
-                'thumbnail': item.meta['_tva_preview_image'][0]
-            })
-        }
+    setContent(key, value) {
+        this.props.changeAreaContent({
+            [key]: value
+        })
     }
 
     render() {
+
         const {autostart, loop, fullscreen, zoom, playIcon, showNavBar, thumbnail} = this.props
 
-        const videoOptions = this.state.adInsertedVideoArray.map(video => {
+        let videoOptions = [<option key={'ad-insertion-select-video'} value={''}>select</option>]
+
+        videoOptions.push(this.state.adInsertedVideoArray.map(video => {
             return (<option key={video.id} value={video.output_dash_url}>{video.name}</option>)
-        })
+        }))
 
         const videoAdInsertionContent = (
             <div className="component editHeader">
@@ -146,7 +154,7 @@ class AdInsertedVideoEdit extends React.PureComponent {
                             <label>Ad Inserted Video Source: </label>
                         </td>
                         <td>
-                            <select onChange={e => this.setContent('url', e.target.value)}>
+                            <select value={this.state.selectedVideo} onChange={this.handleChangeOnDropdown.bind(this)}>
                                 {videoOptions}
                             </select>
                         </td>

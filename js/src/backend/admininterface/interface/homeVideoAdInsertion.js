@@ -89,7 +89,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     See all your new created videos here. Just press the button to see a full list of already created videos.
                                 </p>
                                 <div className='ad-inserter-start-page-image-container'>
-                                    <img src='http://img1.img1.de/allAdInsertedVideos48005d97.gif' />
+                                    <img src={env.document_root + '/app/plugins/mpat-adinsertion/assets/gifs/allAdInsertedVideos-480.gif'} />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
                                     <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ad-inserted-videos'}>
@@ -109,7 +109,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     Create your new video here. Simply press the button and put together your videos and ads easily.
                                 </p>
                                 <div className='ad-inserter-start-page-image-container'>
-                                    <img src='http://img1.img1.de/newVideo4808dd20.gif' />
+                                    <img src={env.document_root + '/app/plugins/mpat-adinsertion/assets/gifs/newVideo-480.gif'} />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
                                     <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-new-video'}>
@@ -135,7 +135,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     See all your ads here. Just press the button to see a full list of already added ads.
                                 </p>
                                 <div className='ad-inserter-start-page-image-container'>
-                                    <img src='http://img1.img1.de/allAds480489ae.gif' />
+                                    <img src={env.document_root + '/app/plugins/mpat-adinsertion/assets/gifs/allAds-480.gif'} />
                                 </div>
                                 <div className='ad-inserter-start-page-button-container'>
                                     <Link to={env.path + 'wp/wp-admin/admin.php?page=mpat-ad-insertion-all-ads'}>
@@ -155,7 +155,7 @@ class HomeVideoAdInsertion extends React.Component {
                                     Add all of your ads here. Simply press the button and to create a new add easily.
                                 </p>
                                 <div className='ad-inserter-start-page-image-container'>
-                                    <img src='http://img1.img1.de/newAd480c66b4.gif' />
+                                    <img src={env.document_root + '/app/plugins/mpat-adinsertion/assets/gifs/newAd-480.gif'} />
                                 </div>
 
                                 <div className='ad-inserter-start-page-button-container'>
@@ -170,38 +170,7 @@ class HomeVideoAdInsertion extends React.Component {
                         </div>
 
                     </div>
-
                     <hr/>
-                </div>
-                
-                 {/*only for test purposes*/}
-                <div className='ad-inserter-headline'>
-                    <h2 className='ad-inserter-h2 db-test-buttons'>Buttons for test purposes</h2>
-                </div>
-                <div className='ad-inserter-space-around-button-group'>
-
-                    <div>
-                        <h2>Tables</h2>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => createTables()}>DB create Tables</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => deleteTables()}>DB delete Tables</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => createData()}>DB create Test Data</button>
-                    </div>
-                    <div>
-                        <h2>Videos</h2>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => getVideos()}>DB get Videos</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => getVideo(1)}>DB get Video</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => createVideo(createVideoTestJson)}>DB createVideo</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => updateVideo(createVideoTestJson)}>DB updateVideo</button>
-                    </div>
-                    <div>
-                        <h2>Ads</h2>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => getAds()}>DB getAds</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => getAdsWithCount()}>DB getAdsWithCount</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => getAd(1)}>DB getAd(1)</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => createAd({name: 'test',dash_url: 'ahsgfjahf',hls_url: 'jdhfkjshdkfj', duration: 1000})}>DB create ad</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => updateAd(1,{name: 'test2',dash_url: 'ahsgfjahf',hls_url: 'jdhfkjshdkfj'})}>DB update</button>
-                        <button className='ad-inserter-button-white-blue' onClick={ () => deleteAd(1)}>DB delete</button>
-                    </div>
                 </div>
             </div>
         );
