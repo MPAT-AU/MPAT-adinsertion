@@ -1,18 +1,20 @@
 <?php
 
 /**
- * @link            URL to plugin homepage
+ * @link            https://github.com/Mark-003/MPAT-AdInsertion-plugin
  * @since           1.0.0
+ * @package         MPAT_AdInsertion_plugin
  *
+ * @wordpress-plugin
  * Plugin Name:     MPAT Video Ad Insertion Plugin
  * Plugin URI:      https://github.com/Mark-003/MPAT-adinsertion
- * Description:     Plugin to insert ads into DASH/HLS streams.
+ * Description:     This plugin enables you to create ad inserted videos for your TV app easily.
  * Version:         1.0.0
- * Author:          Mark-003
+ * Author:          Dennis Wilm, Fabian Puch, Phillip Fiala
  * Author URI:      https://github.com/Mark-003
- * License:
- * License URI:
- * Text Domain:
+ * License:         GPL-3.0
+ * License URI:     http://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:     MPAT-AdInsertion-plugin
  */
 class AdInsertion {
 

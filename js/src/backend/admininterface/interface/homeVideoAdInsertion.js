@@ -5,69 +5,6 @@ import { Link } from 'react-router-dom'
 
 import { highlightNavigation } from '../helper/wpRouting'
 
-import { createTables, getVideos, getVideo, getAds, getAd, createAd, updateAd, deleteAd, createData, getAdsWithCount, createVideo, deleteTables, updateVideo } from '../handler/DBHandler';
-
-var createVideoTestJson = {
-    "id": 1,
-    "name": "Testvideo update",
-    "output_dash_url": "http://daiservices.fokus.fraunhofer.de:3002/mpds/1515962031964.mpd",
-    "output_hls_url": "http://samp.le/url.hls",
-    "parts":  [
-      {
-        "name": "Part 1",
-        "dash_url": "http://daiservices.fokus.fraunhofer.de:3002/mpds/1515962031964.mpd",
-        "hls_url": "http://samp.le/url.hls",
-        "part_nr": 1,
-        "ad_blocks":  [
-          {   
-            "sec_in_part": 10,
-            "ad_block_parts": [
-                {
-                  "order_nr": 1,
-                  "ad_id": 2
-                }
-                ]
-          },
-          {   
-            "sec_in_part": 10,
-            "ad_block_parts": [
-                {
-                  "order_nr": 2,
-                  "ad_id": 2
-                }
-                ]
-          }
-        ]
-      },
-      {
-        "name": "Part 2",
-        "dash_url": "http://daiservices.fokus.fraunhofer.de:3002/mpds/1515962031964.mpd",
-        "hls_url": "http://samp.le/url.hls",
-        "part_nr": 2,
-        "ad_blocks":  [
-          {   
-            "sec_in_part": 10,
-            "ad_block_parts": [
-              {
-                "order_nr": 1,
-                "ad_id": 2
-              }
-              ]
-          },
-          {   
-            "sec_in_part": 10,
-            "ad_block_parts": [
-                {
-                  "order_nr": 2,
-                  "ad_id": 2
-                }
-                ]
-          }
-        ]
-      }
-    ]
-  }
-
 class HomeVideoAdInsertion extends React.Component {
     render() {
         return (
